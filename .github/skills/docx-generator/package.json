@@ -1,0 +1,15 @@
+{
+  "name": "docx-generator",
+  "version": "1.0.0",
+  "description": "A portable Agent Skill that teaches AI agents how to generate professional Word (.docx) documents using Node.js and the `docx` npm package.",
+  "main": "report-template.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "docx": "^9.6.1"
+  }
+}
