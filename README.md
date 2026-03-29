@@ -8,6 +8,7 @@ This toolkit gives your product team AI-powered workflows for two things:
 
 1. **Professional document generation** — create Word docs, PowerPoint decks, and Excel workbooks from natural language prompts
 2. **Agile delivery workflows** — generate feature briefs, decompose epics, refine user stories, plan PIs, and create retrospective reports
+3. **Visual diagrams** — generate draw.io diagrams (dependency maps, story hierarchies, BPMN process flows, sequence diagrams, C4 architecture) from your agile artifacts
 
 Every skill is a portable `SKILL.md` file that teaches the AI agent how to perform a specialized task. Just describe what you need in plain English and the agent produces the output.
 
@@ -187,6 +188,38 @@ Turn raw retrospective notes into a professional report for leadership — as a 
 
 ---
 
+## Visual Diagram Skills
+
+### draw.io Agile Diagrams (.drawio)
+
+Generate draw.io diagram files from your agile artifacts — no CLI tools or platform dependencies required. Output is a `.drawio` XML file you open in draw.io (web or desktop).
+
+**Powered by**: Python (standard library only)
+
+```
+> Generate a dependency map from the epic folder at
+  epics/2026-03-28-portfolio-risk-alerts/. Show which
+  stories block each other, color-coded by priority.
+```
+
+**Diagram types**:
+
+| Diagram | Input | Use Case |
+|---------|-------|----------|
+| **Dependency Map** | Epic folder (story files) | PI Planning — visualize story blocking relationships |
+| **Story Hierarchy Tree** | Epic overview | Stakeholder communication — show Epic > Story breakdown |
+| **BPMN Process Flow** | Text or acceptance criteria | Refinement — clarify business workflows |
+| **Sequence Diagram** | Feature brief or text | Design review — show system interactions |
+| **C4 Context Diagram** | Feature brief | Architecture — show system boundary and actors |
+
+**What you get**:
+- Raw `.drawio` XML file — opens in app.diagrams.net, draw.io desktop, VS Code extension, or Confluence
+- Professional color palette with priority-based coloring (P1=red, P2=orange, P3=blue, P4=gray)
+- Grid-aligned layout ready for manual adjustment in draw.io
+- No pip install, no npm install, no CLI dependencies — works on any platform including Windows
+
+---
+
 ## How It Works
 
 ```
@@ -280,9 +313,10 @@ cp -r .github/skills/* ~/.claude/skills/
 ## Prerequisites
 
 - **Node.js** (for docx and pptx generation)
-- **Python 3** (for xlsx generation)
+- **Python 3** (for xlsx and draw.io diagram generation)
 - **npm packages**: `docx`, `pptxgenjs` (installed automatically by the agent)
 - **pip packages**: `openpyxl` (installed automatically by the agent)
+- **draw.io diagrams**: No additional dependencies — uses Python standard library only
 
 ## Project Structure
 
@@ -294,6 +328,7 @@ copilot-po-ba-toolkit/
 │       ├── xlsx-generator/              # Excel workbooks
 │       ├── pptx-generator/              # PowerPoint presentations
 │       ├── docx-generator/              # Word documents
+│       ├── drawio-agile-diagrams/       # draw.io diagrams (.drawio)
 │       ├── feature-brief-generator/     # Aha!/Jira → feature brief
 │       ├── epic-decomposer/             # Feature brief → epics & stories
 │       ├── story-refiner/               # Draft stories → refined stories
