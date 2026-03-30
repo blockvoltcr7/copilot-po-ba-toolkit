@@ -1,0 +1,178 @@
+<mxfile host="Claude" modified="2026-03-29" agent="Claude Code" version="21.0">
+  <diagram id="dependency-map" name="Risk Alerts Dependency Map">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;Epic: Real-Time Portfolio Risk Alerts &amp;mdash; Dependency Map&lt;/b&gt;&lt;br&gt;Total: 9 stories | 28 points | Critical path: 1.0 &amp;rarr; 1.1 &amp;rarr; 2.1 &amp;rarr; 2.2 &amp;rarr; 3.1 &amp;rarr; 3.2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="160" y="10" width="720" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ======================== -->
+        <!-- GROUP 1: Foundation      -->
+        <!-- ======================== -->
+        <mxCell id="group1" value="&lt;b&gt;1.x &amp;mdash; Foundation&lt;/b&gt;" style="swimlane;startSize=30;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;rounded=1;arcSize=8;fontSize=13;fontStyle=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="280" height="510" as="geometry" />
+        </mxCell>
+
+        <!-- 1.0 -->
+        <mxCell id="s10" value="&lt;b&gt;1.0&lt;/b&gt; Setup Risk Monitoring Engine&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Task | Size: 3 | &lt;b&gt;P1&lt;/b&gt;&lt;br&gt;Deps: None&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6B6B;strokeColor=#CC4444;fontColor=#FFFFFF;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group1">
+          <mxGeometry x="30" y="50" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 1.1 -->
+        <mxCell id="s11" value="&lt;b&gt;1.1&lt;/b&gt; Real-Time Risk Calculation&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Story | Size: 3 | &lt;b&gt;P1&lt;/b&gt;&lt;br&gt;Deps: 1.0&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6B6B;strokeColor=#CC4444;fontColor=#FFFFFF;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group1">
+          <mxGeometry x="30" y="200" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 1.2 -->
+        <mxCell id="s12" value="&lt;b&gt;1.2&lt;/b&gt; Spike: Evaluate Risk Models&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Spike | Size: 2 | &lt;b&gt;P1&lt;/b&gt;&lt;br&gt;Deps: None (informational)&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6B6B;strokeColor=#CC4444;fontColor=#FFFFFF;arcSize=12;shadow=1;fontSize=11;dashed=1;dashPattern=8 4;" vertex="1" parent="group1">
+          <mxGeometry x="30" y="370" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ======================== -->
+        <!-- GROUP 2: Alerting & UI   -->
+        <!-- ======================== -->
+        <mxCell id="group2" value="&lt;b&gt;2.x &amp;mdash; Alerting &amp;amp; UI&lt;/b&gt;" style="swimlane;startSize=30;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;rounded=1;arcSize=8;fontSize=13;fontStyle=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="380" y="80" width="280" height="510" as="geometry" />
+        </mxCell>
+
+        <!-- 2.0 -->
+        <mxCell id="s20" value="&lt;b&gt;2.0&lt;/b&gt; Alert Threshold Config&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Story | Size: 3 | &lt;b&gt;P2&lt;/b&gt;&lt;br&gt;Deps: 1.1&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB347;strokeColor=#CC8F39;fontColor=#FFFFFF;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group2">
+          <mxGeometry x="30" y="50" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 2.1 -->
+        <mxCell id="s21" value="&lt;b&gt;2.1&lt;/b&gt; Dashboard Risk Alert Widget&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Story | Size: 5 | &lt;b&gt;P1&lt;/b&gt;&lt;br&gt;Deps: 1.1&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6B6B;strokeColor=#CC4444;fontColor=#FFFFFF;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group2">
+          <mxGeometry x="30" y="200" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 2.2 -->
+        <mxCell id="s22" value="&lt;b&gt;2.2&lt;/b&gt; Notification Channels&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Story | Size: 3 | &lt;b&gt;P2&lt;/b&gt;&lt;br&gt;Deps: 2.1&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB347;strokeColor=#CC8F39;fontColor=#FFFFFF;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group2">
+          <mxGeometry x="30" y="370" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ================================ -->
+        <!-- GROUP 3: Quality & Compliance    -->
+        <!-- ================================ -->
+        <mxCell id="group3" value="&lt;b&gt;3.x &amp;mdash; Quality &amp;amp; Compliance&lt;/b&gt;" style="swimlane;startSize=30;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;rounded=1;arcSize=8;fontSize=13;fontStyle=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="720" y="80" width="280" height="510" as="geometry" />
+        </mxCell>
+
+        <!-- 3.0 -->
+        <mxCell id="s30" value="&lt;b&gt;3.0&lt;/b&gt; Compliance Audit Trail&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Story | Size: 5 | &lt;b&gt;P2&lt;/b&gt;&lt;br&gt;Deps: 1.1&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB347;strokeColor=#CC8F39;fontColor=#FFFFFF;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group3">
+          <mxGeometry x="30" y="50" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 3.1 -->
+        <mxCell id="s31" value="&lt;b&gt;3.1&lt;/b&gt; Integration Testing E2E&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Task | Size: 3 | &lt;b&gt;P3&lt;/b&gt;&lt;br&gt;Deps: 2.1, 2.2&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE082;strokeColor=#CCB368;fontColor=#333333;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group3">
+          <mxGeometry x="30" y="200" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- 3.2 -->
+        <mxCell id="s32" value="&lt;b&gt;3.2&lt;/b&gt; Documentation &amp;amp; Runbook&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Task | Size: 1 | &lt;b&gt;P4&lt;/b&gt;&lt;br&gt;Deps: 3.1&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#81D4FA;strokeColor=#5BA3C7;fontColor=#333333;arcSize=12;shadow=1;fontSize=11;" vertex="1" parent="group3">
+          <mxGeometry x="30" y="370" width="220" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- ======================== -->
+        <!-- DEPENDENCY EDGES         -->
+        <!-- ======================== -->
+
+        <!-- 1.0 → 1.1 (within group) -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#CC4444;endArrow=blockThin;endFill=1;" edge="1" source="s10" target="s11" parent="group1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 1.1 → 2.0 (cross group) -->
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#888888;endArrow=blockThin;endFill=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" source="s11" target="s20" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 1.1 → 2.1 (cross group) -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#888888;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" source="s11" target="s21" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 1.1 → 3.0 (cross group) -->
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#888888;endArrow=blockThin;endFill=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="s11" target="s30" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="330" />
+              <mxPoint x="360" y="60" />
+              <mxPoint x="700" y="60" />
+              <mxPoint x="700" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 2.1 → 2.2 (within group) -->
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#CC8F39;endArrow=blockThin;endFill=1;" edge="1" source="s21" target="s22" parent="group2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 2.1 → 3.1 (cross group) -->
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#888888;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" source="s21" target="s31" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 2.2 → 3.1 (cross group) -->
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#888888;endArrow=blockThin;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" source="s22" target="s31" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 3.1 → 3.2 (within group) -->
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#5BA3C7;endArrow=blockThin;endFill=1;" edge="1" source="s31" target="s32" parent="group3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 1.2 -.-> 1.1 (informational / dashed) -->
+        <mxCell id="e9" value="informs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;dashPattern=8 4;endArrow=open;endFill=0;fontSize=9;fontColor=#999999;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="s12" target="s11" parent="group1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="350" />
+              <mxPoint x="200" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ======================== -->
+        <!-- PRIORITY LEGEND          -->
+        <!-- ======================== -->
+        <mxCell id="legend_box" value="&lt;b&gt;Priority Legend&lt;/b&gt;" style="swimlane;startSize=24;fillColor=#F5F5F5;strokeColor=#666666;fontColor=#333333;rounded=1;arcSize=8;fontSize=11;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="620" width="960" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg_p1" value="&lt;b&gt;P1&lt;/b&gt; Critical" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6B6B;strokeColor=#CC4444;fontColor=#FFFFFF;fontSize=10;shadow=0;" vertex="1" parent="legend_box">
+          <mxGeometry x="20" y="30" width="100" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg_p2" value="&lt;b&gt;P2&lt;/b&gt; High" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB347;strokeColor=#CC8F39;fontColor=#FFFFFF;fontSize=10;shadow=0;" vertex="1" parent="legend_box">
+          <mxGeometry x="140" y="30" width="100" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg_p3" value="&lt;b&gt;P3&lt;/b&gt; Medium" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE082;strokeColor=#CCB368;fontColor=#333333;fontSize=10;shadow=0;" vertex="1" parent="legend_box">
+          <mxGeometry x="260" y="30" width="100" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg_p4" value="&lt;b&gt;P4&lt;/b&gt; Low" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#81D4FA;strokeColor=#5BA3C7;fontColor=#333333;fontSize=10;shadow=0;" vertex="1" parent="legend_box">
+          <mxGeometry x="380" y="30" width="100" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg_solid" value="&amp;rarr; Blocks" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="legend_box">
+          <mxGeometry x="520" y="30" width="70" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg_dashed" value="- - &amp;rarr; Informs (no hard block)" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#999999;" vertex="1" parent="legend_box">
+          <mxGeometry x="600" y="30" width="180" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leg_spike" value="&#x2591;&#x2591; Dashed border = Spike" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;fontColor=#999999;" vertex="1" parent="legend_box">
+          <mxGeometry x="790" y="30" width="150" height="24" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
