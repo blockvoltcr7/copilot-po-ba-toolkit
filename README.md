@@ -218,6 +218,44 @@ Generate draw.io diagram files from your agile artifacts — no CLI tools or pla
 - Grid-aligned layout ready for manual adjustment in draw.io
 - No pip install, no npm install, no CLI dependencies — works on any platform including Windows
 
+### draw.io Visualizer (.drawio)
+
+Generate draw.io diagrams from your codebase exploration sessions. After spending 10-20 minutes exploring code, tracing call chains, and debugging flows — ask the agent to visualize what it already understands. No structured input required — the conversation is the input.
+
+**Powered by**: Python (standard library only)
+
+**For**: Developers, Test Automation Engineers, Solution Architects
+
+```
+> Based on everything we've explored in this session, generate a draw.io
+  diagram showing how the payment service handles refunds across the
+  gateway, inventory, and notification services.
+```
+
+**How it works**:
+1. Explore a codebase in a session (read files, trace flows, ask questions)
+2. After building context, ask the agent to visualize what it understands
+3. The agent chooses the best diagram type and generates a `.drawio` file
+4. Open the file in draw.io or upload to Confluence
+
+**Diagram types** (agent chooses automatically):
+
+| Session Context | Diagram Type |
+|----------------|-------------|
+| Tracing a request across services | Sequence Diagram |
+| Understanding module connections | Architecture Diagram |
+| Debugging a call chain | Flowchart |
+| Mapping data transformations | Data Flow Diagram |
+| Understanding state transitions | State Machine |
+| Designing a new solution | Solution Architecture |
+
+**What you get**:
+- Professional `.drawio` file ready for Confluence upload
+- Real class/service/function names from the codebase (not generic labels)
+- Layer-based coloring (frontend=blue, API=green, services=yellow, data=purple)
+- Multi-page diagrams for complex systems (overview + detail views)
+- No dependencies — works on any platform including Windows
+
 ---
 
 ## How It Works
@@ -328,7 +366,8 @@ copilot-po-ba-toolkit/
 │       ├── xlsx-generator/              # Excel workbooks
 │       ├── pptx-generator/              # PowerPoint presentations
 │       ├── docx-generator/              # Word documents
-│       ├── drawio-agile-diagrams/       # draw.io diagrams (.drawio)
+│       ├── drawio-agile-diagrams/       # draw.io diagrams from agile artifacts
+│       ├── drawio-visualizer/           # draw.io diagrams from codebase exploration
 │       ├── feature-brief-generator/     # Aha!/Jira → feature brief
 │       ├── epic-decomposer/             # Feature brief → epics & stories
 │       ├── story-refiner/               # Draft stories → refined stories
