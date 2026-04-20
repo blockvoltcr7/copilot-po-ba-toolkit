@@ -110,15 +110,15 @@ Vary the choice each time. If last was dark+technical, make next light+editorial
 
 ### 4. Deliver
 
-**Output location:** Write to `~/.agent/diagrams/`. Use a descriptive filename: `modem-architecture.html`, `pipeline-flow.html`.
+**Output location:** Write to the **project root directory** (the current working directory). Use a descriptive filename: `modem-architecture.html`, `pipeline-flow.html`.
 
 **Open in browser:**
-- macOS: `open ~/.agent/diagrams/filename.html`
-- Linux: `xdg-open ~/.agent/diagrams/filename.html`
+- macOS: `open ./filename.html`
+- Linux: `xdg-open ./filename.html`
 
 **Share via Vercel:**
 ```bash
-bash <skill-dir>/scripts/share.sh ~/.agent/diagrams/filename.html
+bash <skill-dir>/scripts/share.sh ./filename.html
 ```
 
 ## File Structure

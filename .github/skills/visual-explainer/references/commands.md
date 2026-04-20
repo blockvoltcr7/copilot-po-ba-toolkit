@@ -12,7 +12,7 @@ Generate an HTML diagram for the requested topic. Follow the visual-explainer SK
 
 If `surf` CLI is available (`which surf`), consider generating an AI illustration via `surf gemini --generate-image` when an image would genuinely enhance the page — hero banner, conceptual illustration, or educational diagram Mermaid can't express. Skip for purely structural/data-driven topics.
 
-Write to `~/.agent/diagrams/` and open in browser.
+Write to `./` and open in browser.
 
 ---
 
@@ -53,7 +53,7 @@ Write to `~/.agent/diagrams/` and open in browser.
 
 Use hero depth for sections 1–3, elevated for 4–6, flat/recessed for 7–10. Use `white-space: pre-wrap` on all code blocks.
 
-Write to `~/.agent/diagrams/` with filename like `feature-name-plan.html`. Open in browser.
+Write to `./` with filename like `feature-name-plan.html`. Open in browser.
 
 ---
 
@@ -82,7 +82,7 @@ Read `./assets/slide-deck.html` and `./references/slide-patterns.md` before gene
 - Minimum body text: 16px. Typography is 2–3× larger than scrollable pages.
 - Mermaid diagrams: max 8–10 nodes, 18px+ labels — use CSS Pipeline for simple linear flows
 
-Write to `~/.agent/diagrams/` and open in browser.
+Write to `./` and open in browser.
 
 ---
 
@@ -130,7 +130,7 @@ Sections 1–3 hero depth; sections 6+ flat/recessed. Use diff color language: r
 
 Include responsive section navigation (read `./references/responsive-nav.md`).
 
-Write to `~/.agent/diagrams/` and open in browser. Ultrathink.
+Write to `./` and open in browser. Ultrathink.
 
 ---
 
@@ -164,7 +164,7 @@ Write to `~/.agent/diagrams/` and open in browser. Ultrathink.
 
 Sections 1–4 hero/elevated; sections 6+ flat/recessed. Current state = blue/neutral; planned = green; concern = amber; gap = red.
 
-Include responsive section navigation. Write to `~/.agent/diagrams/` and open in browser. Ultrathink.
+Include responsive section navigation. Write to `./` and open in browser. Ultrathink.
 
 ---
 
@@ -198,7 +198,7 @@ Include responsive section navigation. Write to `~/.agent/diagrams/` and open in
 7. Cognitive debt hotspots — amber cards with severity: undocumented rationale, complex untested modules, overlapping changes
 8. Next steps — inferred from activity, open TODOs, trajectory
 
-Include responsive section navigation. Write to `~/.agent/diagrams/` and open in browser. Ultrathink.
+Include responsive section navigation. Write to `./` and open in browser. Ultrathink.
 
 ---
 
@@ -208,7 +208,7 @@ Include responsive section navigation. Write to `~/.agent/diagrams/` and open in
 
 **Target file from argument:**
 - Explicit path → verify that file
-- No argument → most recently modified `.html` in `~/.agent/diagrams/`
+- No argument → most recently modified `.html` in the project root (`./`)
 
 Auto-detect document type and adjust verification:
 - HTML review pages → verify against the git ref or plan file it was based on
@@ -256,7 +256,8 @@ bash <skill-dir>/scripts/share.sh <html-file>
 
 **Example:**
 ```bash
-bash .github/skills/visual-explainer/scripts/share.sh ~/.agent/diagrams/my-diagram.html
+bash .github/skills/visual-explainer/scripts/share.sh ./my-diagram.html
+
 ```
 
 **Requirements:** vercel-deploy skill must be installed.

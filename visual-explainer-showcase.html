@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual Explainer — Capability Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-alt: #0e1828;
+      --surface: #131f30;
+      --surface-2: #192840;
+      --surface-3: #1e3050;
+      --border: #1e3050;
+      --border-light: #243a58;
+      --text: #e2eaf4;
+      --text-dim: #7a9ab8;
+      --text-faint: #3d5a78;
+      --sky: #0ea5e9;
+      --sky-dim: #0284c7;
+      --sky-faint: #0c2e44;
+      --amber: #f59e0b;
+      --amber-dim: #d97706;
+      --amber-faint: #2d1f06;
+      --emerald: #10b981;
+      --emerald-dim: #059669;
+      --emerald-faint: #062520;
+      --rose: #f43f5e;
+      --rose-faint: #2a0a13;
+      --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --font-serif: 'IBM Plex Serif', Georgia, serif;
+      --radius: 6px;
+      --radius-lg: 10px;
+      --dot-color: #1a2d45;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f5f7fa;
+        --bg-alt: #edf0f5;
+        --surface: #ffffff;
+        --surface-2: #f0f3f8;
+        --surface-3: #e6ecf5;
+        --border: #d0dae8;
+        --border-light: #c4d2e4;
+        --text: #0f1f33;
+        --text-dim: #4a6580;
+        --text-faint: #8aa5bf;
+        --sky: #0284c7;
+        --sky-dim: #0369a1;
+        --sky-faint: #dbeafe;
+        --amber: #b45309;
+        --amber-dim: #92400e;
+        --amber-faint: #fef3c7;
+        --emerald: #047857;
+        --emerald-dim: #065f46;
+        --emerald-faint: #d1fae5;
+        --rose: #be123c;
+        --rose-faint: #ffe4e6;
+        --dot-color: #dde4ef;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    /* ── Layout ── */
+    .page-wrap { display: flex; max-width: 1400px; margin: 0 auto; }
+
+    /* ── Sidebar TOC ── */
+    .toc-sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      overflow-y: auto;
+      padding: 2rem 1rem 2rem 1.5rem;
+      border-right: 1px solid var(--border);
+      background: var(--bg);
+      scrollbar-width: thin;
+    }
+    .toc-sidebar .toc-brand {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--sky);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+    .toc-sidebar h2 {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+    }
+    .toc-list { list-style: none; }
+    .toc-list li { margin-bottom: 0.15rem; }
+    .toc-list a {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--radius);
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+      line-height: 1.4;
+    }
+    .toc-list a:hover { color: var(--text); background: var(--surface); }
+    .toc-list a.active { color: var(--sky); background: var(--sky-faint); border-left-color: var(--sky); }
+
+    /* ── Mobile nav ── */
+    .toc-mobile {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      white-space: nowrap;
+    }
+    .toc-mobile a {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      margin-right: 0.4rem;
+      transition: all 0.15s;
+    }
+    .toc-mobile a:hover, .toc-mobile a.active { color: var(--sky); border-color: var(--sky); background: var(--sky-faint); }
+    @media (max-width: 900px) {
+      .toc-sidebar { display: none; }
+      .toc-mobile { display: block; }
+    }
+
+    /* ── Main content ── */
+    .main-content { flex: 1; min-width: 0; padding: 3rem 3rem 6rem; }
+    @media (max-width: 900px) { .main-content { padding: 2rem 1.25rem 4rem; } }
+
+    /* ── Hero ── */
+    .hero { padding: 4rem 0 5rem; border-bottom: 1px solid var(--border); margin-bottom: 4rem; }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--sky);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.12;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--sky); }
+    .hero p { font-size: 1.12rem; color: var(--text-dim); max-width: 620px; margin-bottom: 2rem; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      border: 1px solid;
+    }
+    .badge-sky { color: var(--sky); border-color: var(--sky); background: var(--sky-faint); }
+    .badge-amber { color: var(--amber); border-color: var(--amber); background: var(--amber-faint); }
+    .badge-emerald { color: var(--emerald); border-color: var(--emerald); background: var(--emerald-faint); }
+
+    /* ── Section ── */
+    .section { margin-bottom: 5rem; scroll-margin-top: 2rem; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--sky);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+    }
+    .section h2 { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .section .section-desc { font-size: 0.92rem; color: var(--text-dim); margin-bottom: 2rem; max-width: 650px; }
+
+    /* ── Architecture cards ── */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .arch-card { background: var(--surface); padding: 1.4rem; transition: background 0.15s; }
+    .arch-card:hover { background: var(--surface-2); }
+    .arch-card-icon {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-faint);
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .arch-card h3 { font-size: 0.92rem; font-weight: 600; color: var(--sky); margin-bottom: 0.4rem; }
+    .arch-card p { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; }
+    .arch-flow {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .arch-flow-step { flex: 1; padding: 1rem 1.2rem; background: var(--surface); text-align: center; }
+    .arch-flow-step + .arch-flow-step { border-left: 1px solid var(--border); }
+    .arch-flow-step .step-num { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 500; color: var(--sky); line-height: 1; margin-bottom: 0.3rem; }
+    .arch-flow-step .step-label { font-size: 0.75rem; color: var(--text-dim); }
+
+    /* ── Mermaid shell ── */
+    .diagram-shell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; }
+    .diagram-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+    .diagram-toolbar-left { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+    .diagram-controls { display: flex; gap: 0.3rem; }
+    .diagram-controls button {
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      padding: 0.2rem 0.55rem;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .diagram-controls button:hover { color: var(--sky); border-color: var(--sky); background: var(--sky-faint); }
+    .mermaid-wrap {
+      overflow: hidden;
+      cursor: grab;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      min-height: 200px;
+      user-select: none;
+    }
+    .mermaid-wrap:active { cursor: grabbing; }
+    .mermaid-wrap svg { transition: transform 0.05s linear; transform-origin: center center; }
+
+    /* Expand overlay */
+    .diagram-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .diagram-overlay.open { display: flex; }
+    .diagram-overlay-inner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      max-width: 92vw;
+      max-height: 90dvh;
+      overflow: auto;
+      position: relative;
+      min-width: 400px;
+    }
+    .overlay-close {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.55rem;
+      cursor: pointer;
+    }
+    .overlay-close:hover { color: var(--rose); border-color: var(--rose); }
+
+    /* ── Data table ── */
+    .data-table-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    .data-table th {
+      background: var(--surface-2);
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--surface); }
+    .status-dot { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; }
+    .status-dot::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; }
+    .status-done { color: var(--emerald); }
+    .status-done::before { background: var(--emerald); }
+    .status-progress { color: var(--amber); }
+    .status-progress::before { background: var(--amber); }
+
+    /* ── Before/After diff ── */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    @media (max-width: 700px) { .diff-grid { grid-template-columns: 1fr; } }
+    .diff-panel { background: var(--surface); padding: 1.5rem; min-width: 0; }
+    .diff-panel-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+    .diff-label { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .diff-label-before { color: var(--rose); background: var(--rose-faint); }
+    .diff-label-after { color: var(--emerald); background: var(--emerald-faint); }
+    .diff-panel pre { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim); white-space: pre-wrap; line-height: 1.7; }
+    .diff-line-del { display: block; color: var(--rose); background: var(--rose-faint); padding: 0 0.25rem; border-radius: 2px; }
+    .diff-line-add { display: block; color: var(--emerald); background: var(--emerald-faint); padding: 0 0.25rem; border-radius: 2px; }
+
+    /* ── KPI dashboard ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .kpi-card { background: var(--surface); padding: 1.3rem; }
+    .kpi-card .kpi-val { font-size: 2rem; font-weight: 700; line-height: 1; margin-bottom: 0.3rem; }
+    .kpi-card .kpi-label { font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono); }
+    .kpi-sky .kpi-val { color: var(--sky); }
+    .kpi-amber .kpi-val { color: var(--amber); }
+    .kpi-emerald .kpi-val { color: var(--emerald); }
+    .kpi-rose .kpi-val { color: var(--rose); }
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 700px) { .charts-grid { grid-template-columns: 1fr; } }
+    .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; }
+    .chart-card h4 { font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+    .chart-card canvas { max-height: 220px; }
+
+    /* ── Code blocks ── */
+    .code-file { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; }
+    .code-file-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+    }
+    .code-file-path { font-family: var(--font-mono); font-size: 0.72rem; color: var(--sky); }
+    .code-file-lang { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+    .code-file pre { background: var(--surface); padding: 1.25rem; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.75; color: var(--text); overflow-x: auto; white-space: pre-wrap; }
+    .tok-kw { color: var(--sky); }
+    .tok-str { color: var(--amber); }
+    .tok-comment { color: var(--text-faint); font-style: italic; }
+    .tok-fn { color: var(--emerald); }
+
+    /* ── Timeline ── */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before { content: ''; position: absolute; left: 0.4rem; top: 0.5rem; bottom: 0.5rem; width: 1px; background: var(--border); }
+    .timeline-item { position: relative; margin-bottom: 2rem; }
+    .timeline-dot { position: absolute; left: -1.7rem; top: 0.35rem; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--sky); background: var(--bg); }
+    .timeline-dot.done { background: var(--sky); }
+    .timeline-date { font-family: var(--font-mono); font-size: 0.68rem; color: var(--sky); margin-bottom: 0.3rem; }
+    .timeline-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .timeline-item p { font-size: 0.82rem; color: var(--text-dim); }
+
+    /* ── Callout ── */
+    .callout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .callout { border-radius: var(--radius-lg); padding: 1.25rem; border: 1px solid; }
+    .callout-good { background: var(--emerald-faint); border-color: var(--emerald); }
+    .callout-warn { background: var(--amber-faint); border-color: var(--amber); }
+    .callout-bad { background: var(--rose-faint); border-color: var(--rose); }
+    .callout-info { background: var(--sky-faint); border-color: var(--sky); }
+    .callout-title { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .callout-good .callout-title { color: var(--emerald); }
+    .callout-warn .callout-title { color: var(--amber); }
+    .callout-bad .callout-title { color: var(--rose); }
+    .callout-info .callout-title { color: var(--sky); }
+    .callout p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 0 0 4rem; }
+
+    /* ── Slide previews ── */
+    .slide-preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .slide-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .slide-card::after { content: 'SLIDE'; position: absolute; bottom: 0.5rem; right: 0.75rem; font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-faint); letter-spacing: 0.12em; }
+    .slide-preset-name { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
+    .slide-card h4 { font-size: 1.1rem; font-weight: 700; line-height: 1.2; flex: 1; display: flex; align-items: center; }
+    .slide-meta { font-size: 0.72rem; color: var(--text-faint); }
+    .slide-midnight { background: #0f0f14; border-color: #2a2a3d; }
+    .slide-midnight .slide-preset-name { color: #7c6af7; }
+    .slide-midnight h4 { color: #f0eeff; }
+    .slide-warm { background: #1c1410; border-color: #3a2a1a; }
+    .slide-warm .slide-preset-name { color: #e8773a; }
+    .slide-warm h4 { color: #f5ede0; }
+    .slide-terminal { background: #0a0e0a; border-color: #1a2a1a; }
+    .slide-terminal .slide-preset-name { color: #39d353; }
+    .slide-terminal h4 { color: #39d353; font-family: var(--font-mono); font-size: 0.85rem; }
+    .slide-swiss { background: #ffffff; border-color: #e0e0e0; }
+    .slide-swiss .slide-preset-name { color: #e63329; }
+    .slide-swiss h4 { color: #1a1a1a; }
+
+    /* ── Command table ── */
+    .cmd-table-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .cmd-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    .cmd-table th { background: var(--surface-2); padding: 0.7rem 1rem; text-align: left; font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid var(--border); }
+    .cmd-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .cmd-table tr:last-child td { border-bottom: none; }
+    .cmd-table tr:hover td { background: var(--surface); }
+    .cmd-name { font-family: var(--font-mono); font-size: 0.78rem; color: var(--sky); white-space: nowrap; }
+    .cmd-desc { font-size: 0.82rem; color: var(--text); }
+    .cmd-trigger { font-size: 0.76rem; color: var(--text-dim); font-style: italic; }
+
+    /* ── Fade-up ── */
+    .fade-up { opacity: 0; transform: translateY(18px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .fade-up { opacity: 1; transform: none; transition: none; } }
+
+    .page-footer { border-top: 1px solid var(--border); padding: 2rem 0 1rem; margin-top: 2rem; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-faint); }
+  </style>
+</head>
+<body>
+
+<nav class="toc-mobile">
+  <a href="#architecture">Architecture</a>
+  <a href="#flowchart">Flowchart</a>
+  <a href="#sequence">Sequence</a>
+  <a href="#er">ER Schema</a>
+  <a href="#state">State Machine</a>
+  <a href="#datatable">Data Table</a>
+  <a href="#diffpanel">Diff Panels</a>
+  <a href="#dashboard">Dashboard</a>
+  <a href="#codeblocks">Code Blocks</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#slides">Slides</a>
+  <a href="#commands">Commands</a>
+</nav>
+
+<div class="page-wrap">
+  <aside class="toc-sidebar">
+    <div class="toc-brand">visual-explainer</div>
+    <h2>Contents</h2>
+    <ul class="toc-list">
+      <li><a href="#architecture">Architecture Cards</a></li>
+      <li><a href="#flowchart">Mermaid Flowchart</a></li>
+      <li><a href="#sequence">Sequence Diagram</a></li>
+      <li><a href="#er">ER Schema</a></li>
+      <li><a href="#state">State Machine</a></li>
+      <li><a href="#datatable">Data Table</a></li>
+      <li><a href="#diffpanel">Before / After Panels</a></li>
+      <li><a href="#dashboard">KPI Dashboard</a></li>
+      <li><a href="#codeblocks">Code Blocks</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#slides">Slide Presets</a></li>
+      <li><a href="#commands">Command Reference</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- Hero -->
+    <header class="hero section" id="hero">
+      <div class="hero-eyebrow">capability showcase</div>
+      <h1>Visual <span>Explainer</span></h1>
+      <p>Every output type the skill can generate — architecture cards, four Mermaid diagram types, data tables, diff panels, dashboards, code blocks, timelines, and slide presets — all in one page.</p>
+      <div class="hero-badges">
+        <span class="badge badge-sky">Mermaid 10</span>
+        <span class="badge badge-sky">Chart.js 4</span>
+        <span class="badge badge-amber">8 commands</span>
+        <span class="badge badge-emerald">Blueprint aesthetic</span>
+        <span class="badge badge-emerald">Self-contained HTML</span>
+      </div>
+    </header>
+
+    <!-- 01 Architecture Cards -->
+    <section class="section fade-up" id="architecture">
+      <div class="section-label">01 — Architecture Cards</div>
+      <h2>CSS Grid Architecture</h2>
+      <p class="section-desc">Text-heavy system overviews use styled card grids with flow connectors — no Mermaid needed. Best for layered architectures where component descriptions matter more than topology.</p>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <div class="arch-card-icon">layer 01</div>
+          <h3>User Interface</h3>
+          <p>React components send user intent as structured prompts with tool call schemas attached.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-card-icon">layer 02</div>
+          <h3>Skill Dispatcher</h3>
+          <p>Reads SKILL.md frontmatter at session start. Routes intent to matching skill body on trigger.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-card-icon">layer 03</div>
+          <h3>Reference Loader</h3>
+          <p>Claude reads references/ files on demand — only the relevant domain file loads into context.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-card-icon">layer 04</div>
+          <h3>Output Generator</h3>
+          <p>Reads assets/ templates, adapts aesthetic, writes self-contained HTML to ~/.agent/diagrams/.</p>
+        </div>
+      </div>
+      <div class="arch-flow">
+        <div class="arch-flow-step"><div class="step-num">1</div><div class="step-label">Trigger skill</div></div>
+        <div class="arch-flow-step"><div class="step-num">2</div><div class="step-label">Match command</div></div>
+        <div class="arch-flow-step"><div class="step-num">3</div><div class="step-label">Load refs</div></div>
+        <div class="arch-flow-step"><div class="step-num">4</div><div class="step-label">Generate HTML</div></div>
+        <div class="arch-flow-step"><div class="step-num">5</div><div class="step-label">Open browser</div></div>
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <!-- 02 Flowchart -->
+    <section class="section fade-up" id="flowchart">
+      <div class="section-label">02 — Mermaid Diagrams</div>
+      <h2>Flowchart</h2>
+      <p class="section-desc">Flowcharts use <code>flowchart TD</code> with full zoom, pan, and expand controls. Always <code>theme: 'base'</code> with themeVariables — never the raw Mermaid default theme.</p>
+      <div class="diagram-shell">
+        <div class="diagram-toolbar">
+          <span class="diagram-toolbar-left">flowchart TD — skill dispatch flow</span>
+          <div class="diagram-controls">
+            <button onclick="zoomD('wrap-flow',-0.2)">−</button>
+            <button onclick="zoomD('wrap-flow',0.2)">+</button>
+            <button onclick="resetD('wrap-flow')">reset</button>
+            <button onclick="expandD('overlay-flow','wrap-flow')">expand</button>
+          </div>
+        </div>
+        <div class="mermaid-wrap" id="wrap-flow">
+          <pre class="mermaid">
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#131f30',
+  'primaryTextColor': '#e2eaf4',
+  'primaryBorderColor': '#1e3050',
+  'lineColor': '#0ea5e9',
+  'secondaryColor': '#192840',
+  'tertiaryColor': '#0c2e44',
+  'background': '#0b1220',
+  'mainBkg': '#131f30',
+  'nodeBorder': '#1e3050',
+  'clusterBkg': '#0e1828',
+  'titleColor': '#e2eaf4',
+  'edgeLabelBackground': '#0e1828',
+  'fontFamily': 'IBM Plex Mono'
+}}}%%
+flowchart TD
+  U([User Request]) --> S{Skill<br/>loaded?}
+  S -->|yes| M{Match<br/>command?}
+  S -->|no| G[General<br/>response]
+  M -->|diagram| D[generate-web-diagram]
+  M -->|diff| R[diff-review]
+  M -->|plan| P[generate-visual-plan]
+  M -->|slides| SL[generate-slides]
+  D --> W[Write HTML]
+  R --> W
+  P --> W
+  SL --> W
+  W --> O([Open in browser])
+          </pre>
+        </div>
+      </div>
+    </section>
+    <div class="diagram-overlay" id="overlay-flow">
+      <div class="diagram-overlay-inner">
+        <button class="overlay-close" onclick="closeOverlay('overlay-flow')">close</button>
+        <div class="overlay-content" id="overlay-flow-content"></div>
+      </div>
+    </div>
+    <hr class="section-divider">
+
+    <!-- 03 Sequence -->
+    <section class="section fade-up" id="sequence">
+      <div class="section-label">03 — Mermaid Diagrams</div>
+      <h2>Sequence Diagram</h2>
+      <p class="section-desc">Sequence diagrams model request/response lifecycles. Use <code>sequenceDiagram</code> with <code>autonumber</code> for numbered steps.</p>
+      <div class="diagram-shell">
+        <div class="diagram-toolbar">
+          <span class="diagram-toolbar-left">sequenceDiagram — HTML generation lifecycle</span>
+          <div class="diagram-controls">
+            <button onclick="zoomD('wrap-seq',-0.2)">−</button>
+            <button onclick="zoomD('wrap-seq',0.2)">+</button>
+            <button onclick="resetD('wrap-seq')">reset</button>
+            <button onclick="expandD('overlay-seq','wrap-seq')">expand</button>
+          </div>
+        </div>
+        <div class="mermaid-wrap" id="wrap-seq">
+          <pre class="mermaid">
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#131f30',
+  'primaryTextColor': '#e2eaf4',
+  'primaryBorderColor': '#1e3050',
+  'lineColor': '#0ea5e9',
+  'secondaryColor': '#192840',
+  'background': '#0b1220',
+  'mainBkg': '#131f30',
+  'nodeBorder': '#1e3050',
+  'fontFamily': 'IBM Plex Mono',
+  'signalColor': '#0ea5e9',
+  'actorBkg': '#131f30',
+  'actorBorder': '#1e3050',
+  'actorTextColor': '#e2eaf4',
+  'activationBkgColor': '#192840',
+  'activationBorderColor': '#0ea5e9',
+  'labelBoxBkgColor': '#0e1828',
+  'labelTextColor': '#e2eaf4',
+  'sequenceNumberColor': '#0ea5e9',
+  'loopTextColor': '#7a9ab8'
+}}}%%
+sequenceDiagram
+  autonumber
+  User->>Claude: "Create a diagram of X"
+  Claude->>Skill: trigger visual-explainer
+  Skill-->>Claude: load SKILL.md body
+  Claude->>Refs: read commands.md
+  Refs-->>Claude: generate-web-diagram template
+  Claude->>Assets: read mermaid-flowchart.html
+  Assets-->>Claude: zoom/pan template
+  Claude->>Claude: compose full HTML
+  Claude->>FS: write ~/.agent/diagrams/x.html
+  Claude->>Browser: open x.html
+  Browser-->>User: rendered diagram
+          </pre>
+        </div>
+      </div>
+    </section>
+    <div class="diagram-overlay" id="overlay-seq">
+      <div class="diagram-overlay-inner">
+        <button class="overlay-close" onclick="closeOverlay('overlay-seq')">close</button>
+        <div class="overlay-content" id="overlay-seq-content"></div>
+      </div>
+    </div>
+    <hr class="section-divider">
+
+    <!-- 04 ER -->
+    <section class="section fade-up" id="er">
+      <div class="section-label">04 — Mermaid Diagrams</div>
+      <h2>ER Schema</h2>
+      <p class="section-desc">Entity-relationship diagrams map data models and foreign key relationships. Uses <code>erDiagram</code> syntax with labeled cardinality.</p>
+      <div class="diagram-shell">
+        <div class="diagram-toolbar">
+          <span class="diagram-toolbar-left">erDiagram — skill file schema</span>
+          <div class="diagram-controls">
+            <button onclick="zoomD('wrap-er',-0.2)">−</button>
+            <button onclick="zoomD('wrap-er',0.2)">+</button>
+            <button onclick="resetD('wrap-er')">reset</button>
+            <button onclick="expandD('overlay-er','wrap-er')">expand</button>
+          </div>
+        </div>
+        <div class="mermaid-wrap" id="wrap-er">
+          <pre class="mermaid">
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#131f30',
+  'primaryTextColor': '#e2eaf4',
+  'primaryBorderColor': '#0ea5e9',
+  'lineColor': '#0ea5e9',
+  'background': '#0b1220',
+  'mainBkg': '#131f30',
+  'fontFamily': 'IBM Plex Mono',
+  'attributeBackgroundColorEven': '#0e1828',
+  'attributeBackgroundColorOdd': '#131f30'
+}}}%%
+erDiagram
+  SKILL {
+    string name PK
+    string description
+    string body_md
+  }
+  REFERENCE {
+    string skill_name FK
+    string filename PK
+    text content
+  }
+  ASSET {
+    string skill_name FK
+    string filename PK
+    blob content
+  }
+  SCRIPT {
+    string skill_name FK
+    string filename PK
+    text content
+    bool executable
+  }
+  SKILL ||--o{ REFERENCE : has
+  SKILL ||--o{ ASSET : has
+  SKILL ||--o{ SCRIPT : has
+          </pre>
+        </div>
+      </div>
+    </section>
+    <div class="diagram-overlay" id="overlay-er">
+      <div class="diagram-overlay-inner">
+        <button class="overlay-close" onclick="closeOverlay('overlay-er')">close</button>
+        <div class="overlay-content" id="overlay-er-content"></div>
+      </div>
+    </div>
+    <hr class="section-divider">
+
+    <!-- 05 State Machine -->
+    <section class="section fade-up" id="state">
+      <div class="section-label">05 — Mermaid Diagrams</div>
+      <h2>State Machine</h2>
+      <p class="section-desc">State machines map lifecycle transitions using <code>stateDiagram-v2</code>. Use simple string labels only — avoid special characters in state names.</p>
+      <div class="diagram-shell">
+        <div class="diagram-toolbar">
+          <span class="diagram-toolbar-left">stateDiagram-v2 — skill loading states</span>
+          <div class="diagram-controls">
+            <button onclick="zoomD('wrap-state',-0.2)">−</button>
+            <button onclick="zoomD('wrap-state',0.2)">+</button>
+            <button onclick="resetD('wrap-state')">reset</button>
+            <button onclick="expandD('overlay-state','wrap-state')">expand</button>
+          </div>
+        </div>
+        <div class="mermaid-wrap" id="wrap-state">
+          <pre class="mermaid">
+%%{init: {'theme': 'base', 'themeVariables': {
+  'primaryColor': '#131f30',
+  'primaryTextColor': '#e2eaf4',
+  'primaryBorderColor': '#1e3050',
+  'lineColor': '#0ea5e9',
+  'background': '#0b1220',
+  'mainBkg': '#131f30',
+  'fontFamily': 'IBM Plex Mono',
+  'labelColor': '#e2eaf4',
+  'transitionColor': '#0ea5e9'
+}}}%%
+stateDiagram-v2
+  [*] --> Unloaded
+  Unloaded --> MetadataOnly : session start
+  MetadataOnly --> BodyLoaded : intent matches
+  BodyLoaded --> RefsLoaded : needs ref file
+  RefsLoaded --> BodyLoaded : done with refs
+  BodyLoaded --> Generating : write HTML
+  Generating --> Done : file written
+  Done --> MetadataOnly : next request
+  Done --> [*] : session end
+          </pre>
+        </div>
+      </div>
+    </section>
+    <div class="diagram-overlay" id="overlay-state">
+      <div class="diagram-overlay-inner">
+        <button class="overlay-close" onclick="closeOverlay('overlay-state')">close</button>
+        <div class="overlay-content" id="overlay-state-content"></div>
+      </div>
+    </div>
+    <hr class="section-divider">
+
+    <!-- 06 Data Table -->
+    <section class="section fade-up" id="datatable">
+      <div class="section-label">06 — Data Table</div>
+      <h2>Styled Tables</h2>
+      <p class="section-desc">Tables with sticky headers, status indicators, and hover states. Auto-triggered for tabular data with 4+ rows or 3+ columns — never ASCII art.</p>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Diagram Type</th>
+              <th>Mermaid Syntax</th>
+              <th>Best For</th>
+              <th>Node Limit</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Flowchart</td>
+              <td><code style="font-family:var(--font-mono);font-size:0.78rem">flowchart TD</code></td>
+              <td>Decision flows, pipelines</td>
+              <td>12</td>
+              <td><span class="status-dot status-done">Supported</span></td>
+            </tr>
+            <tr>
+              <td>Sequence</td>
+              <td><code style="font-family:var(--font-mono);font-size:0.78rem">sequenceDiagram</code></td>
+              <td>API lifecycles, async flows</td>
+              <td>8 actors</td>
+              <td><span class="status-dot status-done">Supported</span></td>
+            </tr>
+            <tr>
+              <td>ER Diagram</td>
+              <td><code style="font-family:var(--font-mono);font-size:0.78rem">erDiagram</code></td>
+              <td>Database schemas</td>
+              <td>10</td>
+              <td><span class="status-dot status-done">Supported</span></td>
+            </tr>
+            <tr>
+              <td>State Machine</td>
+              <td><code style="font-family:var(--font-mono);font-size:0.78rem">stateDiagram-v2</code></td>
+              <td>Lifecycle states</td>
+              <td>10</td>
+              <td><span class="status-dot status-done">Supported</span></td>
+            </tr>
+            <tr>
+              <td>Mind Map</td>
+              <td><code style="font-family:var(--font-mono);font-size:0.78rem">mindmap</code></td>
+              <td>Topic clusters</td>
+              <td>20</td>
+              <td><span class="status-dot status-done">Supported</span></td>
+            </tr>
+            <tr>
+              <td>Class Diagram</td>
+              <td><code style="font-family:var(--font-mono);font-size:0.78rem">classDiagram</code></td>
+              <td>OOP structure</td>
+              <td>10</td>
+              <td><span class="status-dot status-done">Supported</span></td>
+            </tr>
+            <tr>
+              <td>C4 Architecture</td>
+              <td><code style="font-family:var(--font-mono);font-size:0.78rem">graph TD + subgraph</code></td>
+              <td>System context maps</td>
+              <td>12</td>
+              <td><span class="status-dot status-progress">Use graph TD</span></td>
+            </tr>
+            <tr>
+              <td>Dashboard</td>
+              <td>Chart.js + CSS Grid</td>
+              <td>KPI cards, metrics</td>
+              <td>Unlimited</td>
+              <td><span class="status-dot status-done">Supported</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <!-- 07 Diff panels -->
+    <section class="section fade-up" id="diffpanel">
+      <div class="section-label">07 — Diff Panels</div>
+      <h2>Before / After Comparison</h2>
+      <p class="section-desc">Side-by-side panels for showing code or architecture changes — used in <code>diff-review</code> and <code>plan-review</code> commands. Red = removed, green = added.</p>
+      <div class="diff-grid">
+        <div class="diff-panel">
+          <div class="diff-panel-header">
+            <span class="diff-label diff-label-before">Before</span>
+            <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-faint)">plugin format</span>
+          </div>
+          <pre>
+<span class="diff-line-del">commands/
+  generate-web-diagram.md
+  diff-review.md
+  generate-slides.md
+  generate-visual-plan.md
+  plan-review.md
+  project-recap.md
+  fact-check.md
+  share.md</span>
+.claude-plugin/
+  plugin.json
+references/
+  css-patterns.md
+SKILL.md</pre>
+        </div>
+        <div class="diff-panel">
+          <div class="diff-panel-header">
+            <span class="diff-label diff-label-after">After</span>
+            <span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-faint)">skill format</span>
+          </div>
+          <pre>
+<span class="diff-line-add">references/
+  commands.md  ← all 8 consolidated
+  css-patterns.md
+  libraries.md
+  slide-patterns.md
+  responsive-nav.md
+assets/
+  architecture.html
+  mermaid-flowchart.html
+  data-table.html
+  slide-deck.html
+scripts/
+  share.sh</span>
+SKILL.md</pre>
+        </div>
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <!-- 08 Dashboard -->
+    <section class="section fade-up" id="dashboard">
+      <div class="section-label">08 — KPI Dashboard</div>
+      <h2>Dashboard with Charts</h2>
+      <p class="section-desc">KPI cards and Chart.js visualizations. Used in <code>diff-review</code> and <code>project-recap</code> commands for quantitative metrics.</p>
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-sky"><div class="kpi-val">8</div><div class="kpi-label">command templates</div></div>
+        <div class="kpi-card kpi-emerald"><div class="kpi-val">5</div><div class="kpi-label">reference files</div></div>
+        <div class="kpi-card kpi-amber"><div class="kpi-val">4</div><div class="kpi-label">asset templates</div></div>
+        <div class="kpi-card kpi-rose"><div class="kpi-val">0</div><div class="kpi-label">runtime dependencies</div></div>
+        <div class="kpi-card kpi-sky"><div class="kpi-val">198</div><div class="kpi-label">SKILL.md lines</div></div>
+        <div class="kpi-card kpi-emerald"><div class="kpi-val">9</div><div class="kpi-label">diagram types</div></div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4>File Size Distribution (KB)</h4>
+          <canvas id="chart-doughnut"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4>Command Usage Frequency (est.)</h4>
+          <canvas id="chart-bar"></canvas>
+        </div>
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <!-- 09 Code blocks -->
+    <section class="section fade-up" id="codeblocks">
+      <div class="section-label">09 — Code Blocks</div>
+      <h2>Syntax-Highlighted Code</h2>
+      <p class="section-desc">File-path headers with language labels. Used in <code>diff-review</code> (modified functions) and <code>generate-visual-plan</code> (key snippets per file).</p>
+      <div class="code-file">
+        <div class="code-file-header">
+          <span class="code-file-path">.github/skills/visual-explainer/SKILL.md</span>
+          <span class="code-file-lang">YAML frontmatter</span>
+        </div>
+        <pre><span class="tok-kw">---</span>
+<span class="tok-str">name</span>: visual-explainer
+<span class="tok-str">description</span>: &gt;
+  Generate beautiful, self-contained HTML pages that visually explain
+  systems, code changes, plans, and data. Use when the user asks for
+  a diagram, architecture overview, diff review, plan review, project
+  recap, comparison table, slide deck, or any visual explanation of
+  technical concepts.
+<span class="tok-kw">---</span></pre>
+      </div>
+      <div class="code-file">
+        <div class="code-file-header">
+          <span class="code-file-path">scripts/share.sh</span>
+          <span class="code-file-lang">bash</span>
+        </div>
+        <pre><span class="tok-comment">#!/usr/bin/env bash</span>
+<span class="tok-comment"># Deploy a visual-explainer HTML page to Vercel</span>
+<span class="tok-kw">set</span> -euo pipefail
+
+HTML_FILE=<span class="tok-str">"${1:?Usage: share.sh &lt;html-file&gt;}"</span>
+
+<span class="tok-fn">claude</span> skill vercel-deploy \
+  --file <span class="tok-str">"$HTML_FILE"</span> \
+  --project <span class="tok-str">"visual-explainer-$(date +%s)"</span>
+
+<span class="tok-kw">echo</span> <span class="tok-str">"Shared: $HTML_FILE"</span></pre>
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <!-- 10 Timeline -->
+    <section class="section fade-up" id="timeline">
+      <div class="section-label">10 — Timeline</div>
+      <h2>CSS Timeline</h2>
+      <p class="section-desc">Chronological event timelines — used in <code>project-recap</code> and <code>diff-review</code>. Filled dot = completed; hollow dot = upcoming.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <div class="timeline-date">v1 — Plugin era</div>
+          <h4>Claude Code Plugin Format</h4>
+          <p>8 slash commands dispatched by plugin.json runtime. Commands lived in separate .md files.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <div class="timeline-date">v2 — Skill format</div>
+          <h4>Converted to Project Skill</h4>
+          <p>SKILL.md frontmatter triggers on user intent. All 8 commands consolidated into references/commands.md.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot done"></div>
+          <div class="timeline-date">v2.1 — Progressive disclosure</div>
+          <h4>Reference Files Split Out</h4>
+          <p>css-patterns.md, libraries.md, slide-patterns.md, responsive-nav.md moved to references/. SKILL.md trimmed from 475 to 198 lines.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">v3 — Planned</div>
+          <h4>Package as .skill File</h4>
+          <p>Run package_skill.py to produce a distributable visual-explainer.skill archive for sharing across projects.</p>
+        </div>
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <!-- 11 Slide presets -->
+    <section class="section fade-up" id="slides">
+      <div class="section-label">11 — Slide Presets</div>
+      <h2>Slide Deck Aesthetics</h2>
+      <p class="section-desc">Four preset aesthetics from <code>references/slide-patterns.md</code>. Each slide is exactly 100dvh. Never auto-selected — only triggered by explicit user request.</p>
+      <div class="slide-preview-grid">
+        <div class="slide-card slide-midnight">
+          <div class="slide-preset-name">Midnight Editorial</div>
+          <h4>Deep dark purple — ideal for technical presentations with density</h4>
+          <div class="slide-meta">Söhne + GT Alpina · Purple accent</div>
+        </div>
+        <div class="slide-card slide-warm">
+          <div class="slide-preset-name">Warm Signal</div>
+          <h4>Warm cream on near-black — editorial feel for product stories</h4>
+          <div class="slide-meta">Fraunces + Fira Code · Orange accent</div>
+        </div>
+        <div class="slide-card slide-terminal">
+          <div class="slide-preset-name">Terminal Mono</div>
+          <h4 style="font-family:var(--font-mono)">Green on black — developer-facing technical decks</h4>
+          <div class="slide-meta" style="color:#39d353;opacity:0.5">Fira Code · Green accent</div>
+        </div>
+        <div class="slide-card slide-swiss">
+          <div class="slide-preset-name" style="color:#e63329">Swiss Clean</div>
+          <h4 style="color:#1a1a1a">White + bold red rule — maximum clarity for executive audiences</h4>
+          <div class="slide-meta" style="color:#888">Neue Haas Grotesk · Red accent</div>
+        </div>
+      </div>
+      <div class="callout-grid">
+        <div class="callout callout-info">
+          <div class="callout-title">SlideEngine JS</div>
+          <p>Keyboard nav (arrows, space), swipe support, and an <code>autoFit()</code> function that scales slide content to fill the viewport.</p>
+        </div>
+        <div class="callout callout-warn">
+          <div class="callout-title">Never auto-select slides</div>
+          <p>Only triggered when the user explicitly requests a deck or passes <code>--slides</code>. Never inferred from other diagram requests.</p>
+        </div>
+      </div>
+    </section>
+    <hr class="section-divider">
+
+    <!-- 12 Commands -->
+    <section class="section fade-up" id="commands">
+      <div class="section-label">12 — Command Reference</div>
+      <h2>All 8 Commands</h2>
+      <p class="section-desc">Defined in <code>references/commands.md</code> — only the matching template is read when the user's intent triggers the skill.</p>
+      <div class="cmd-table-wrap">
+        <table class="cmd-table">
+          <thead>
+            <tr><th>Command</th><th>Description</th><th>Trigger</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cmd-name">generate-web-diagram</td>
+              <td class="cmd-desc">General diagram or visualization for any topic. Picks aesthetic, reads template, writes HTML.</td>
+              <td class="cmd-trigger">User asks for a diagram, chart, or visualization</td>
+            </tr>
+            <tr>
+              <td class="cmd-name">generate-visual-plan</td>
+              <td class="cmd-desc">Feature implementation plan — parses request, reads codebase, produces state/API/edge-case diagram.</td>
+              <td class="cmd-trigger">User asks to visualize a feature plan or "how should we build X"</td>
+            </tr>
+            <tr>
+              <td class="cmd-name">generate-slides</td>
+              <td class="cmd-desc">Full slide deck with SlideEngine, keyboard nav, preset aesthetic. Plans coverage before writing.</td>
+              <td class="cmd-trigger">User explicitly requests a slide deck or passes --slides</td>
+            </tr>
+            <tr>
+              <td class="cmd-name">diff-review</td>
+              <td class="cmd-desc">Reviews git diff/branch/PR: architecture graph, before/after panels, code review cards, decision log.</td>
+              <td class="cmd-trigger">User asks to review a git diff, branch, PR, or code change</td>
+            </tr>
+            <tr>
+              <td class="cmd-name">plan-review</td>
+              <td class="cmd-desc">Audits a plan document against the actual codebase — verifies file paths, function names, behavior claims.</td>
+              <td class="cmd-trigger">User asks to review a plan against the codebase</td>
+            </tr>
+            <tr>
+              <td class="cmd-name">project-recap</td>
+              <td class="cmd-desc">Project mental model: identity, architecture snapshot, recent activity, cognitive debt hotspots.</td>
+              <td class="cmd-trigger">User asks for a project recap or "catch me up"</td>
+            </tr>
+            <tr>
+              <td class="cmd-name">fact-check</td>
+              <td class="cmd-desc">Verifies an HTML diagram against the codebase — confirms every quantitative and naming claim.</td>
+              <td class="cmd-trigger">User asks to verify a visual explainer page for accuracy</td>
+            </tr>
+            <tr>
+              <td class="cmd-name">share</td>
+              <td class="cmd-desc">Deploys a local HTML page to Vercel via the vercel-deploy skill. Returns live + claim URLs.</td>
+              <td class="cmd-trigger">User asks to share, deploy, or publish an HTML page</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout-grid">
+        <div class="callout callout-good">
+          <div class="callout-title">Progressive Disclosure</div>
+          <p>Only the matched command template is loaded from commands.md — not all 8. Context stays lean even with many commands defined.</p>
+        </div>
+        <div class="callout callout-bad">
+          <div class="callout-title">Anti-Patterns to Avoid</div>
+          <p>Bare <code>&lt;pre class="mermaid"&gt;</code> without zoom controls, <code>.node</code> as a CSS class, Inter + violet + gradient-text, neon dashboard palettes, glowing box-shadows.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      visual-explainer skill — .github/skills/visual-explainer/ — generated 2026-04-19
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // ── Mermaid init ──
+  mermaid.initialize({ startOnLoad: true, theme: 'base', securityLevel: 'loose', fontFamily: 'IBM Plex Mono' });
+
+  // ── Zoom/pan engine ──
+  const scales = {}, offsets = {};
+  function getS(id) { return scales[id] || 1; }
+  function getO(id) { return offsets[id] || { x: 0, y: 0 }; }
+  function applyTransform(id) {
+    const wrap = document.getElementById(id);
+    const svg = wrap?.querySelector('svg');
+    if (!svg) return;
+    const { x, y } = getO(id);
+    svg.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + getS(id) + ')';
+  }
+  function zoomD(id, delta) {
+    scales[id] = Math.min(4, Math.max(0.3, getS(id) + delta));
+    applyTransform(id);
+  }
+  function resetD(id) {
+    scales[id] = 1;
+    offsets[id] = { x: 0, y: 0 };
+    applyTransform(id);
+  }
+
+  // Drag-to-pan
+  document.querySelectorAll('.mermaid-wrap').forEach(function(wrap) {
+    var id = wrap.id, dragging = false, startX, startY;
+    wrap.addEventListener('mousedown', function(e) {
+      dragging = true;
+      var o = getO(id);
+      startX = e.clientX - o.x;
+      startY = e.clientY - o.y;
+    });
+    window.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+      offsets[id] = { x: e.clientX - startX, y: e.clientY - startY };
+      applyTransform(id);
+    });
+    window.addEventListener('mouseup', function() { dragging = false; });
+    wrap.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      zoomD(id, e.deltaY < 0 ? 0.1 : -0.1);
+    }, { passive: false });
+  });
+
+  // Expand overlay — uses cloneNode to avoid innerHTML with external content
+  function expandD(overlayId, wrapId) {
+    var overlay = document.getElementById(overlayId);
+    var wrap = document.getElementById(wrapId);
+    var target = document.getElementById(overlayId + '-content');
+    if (!overlay || !wrap || !target) return;
+    while (target.firstChild) target.removeChild(target.firstChild);
+    target.appendChild(wrap.cloneNode(true));
+    overlay.classList.add('open');
+  }
+  function closeOverlay(overlayId) {
+    var el = document.getElementById(overlayId);
+    if (el) el.classList.remove('open');
+  }
+  document.querySelectorAll('.diagram-overlay').forEach(function(ov) {
+    ov.addEventListener('click', function(e) {
+      if (e.target === ov) ov.classList.remove('open');
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.diagram-overlay.open').forEach(function(ov) {
+        ov.classList.remove('open');
+      });
+    }
+  });
+
+  // ── Chart.js ──
+  Chart.defaults.color = '#7a9ab8';
+  Chart.defaults.borderColor = '#1e3050';
+  Chart.defaults.font.family = 'IBM Plex Mono';
+  Chart.defaults.font.size = 11;
+
+  new Chart(document.getElementById('chart-doughnut'), {
+    type: 'doughnut',
+    data: {
+      labels: ['css-patterns', 'slide-patterns', 'slide-deck.html', 'mermaid-flowchart', 'data-table + arch', 'libraries.md', 'nav + SKILL.md'],
+      datasets: [{
+        data: [44, 45, 36, 21, 33, 21, 10],
+        backgroundColor: ['#0ea5e9','#f59e0b','#10b981','#e879f9','#f43f5e','#38bdf8','#34d399'],
+        borderColor: '#0b1220',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 10, font: { size: 10 }, color: '#7a9ab8', usePointStyle: true } },
+        tooltip: { callbacks: { label: function(ctx) { return ' ' + ctx.label + ': ' + ctx.raw + ' KB'; } } }
+      },
+      cutout: '62%'
+    }
+  });
+
+  new Chart(document.getElementById('chart-bar'), {
+    type: 'bar',
+    data: {
+      labels: ['generate-web-diagram','diff-review','generate-visual-plan','project-recap','generate-slides','plan-review','fact-check','share'],
+      datasets: [{ label: 'frequency', data: [38,22,16,10,7,4,2,1], backgroundColor: '#0ea5e9', borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#1e3050' }, ticks: { color: '#7a9ab8' } },
+        y: { grid: { display: false }, ticks: { color: '#7a9ab8', font: { size: 10 } } }
+      }
+    }
+  });
+
+  // ── Scroll spy ──
+  var sections = document.querySelectorAll('section[id], header[id]');
+  var tocLinks = document.querySelectorAll('.toc-list a, .toc-mobile a');
+  var spy = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(function(s) { spy.observe(s); });
+
+  // ── Fade-up on scroll ──
+  var fadeEls = document.querySelectorAll('.fade-up');
+  var fadeObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  fadeEls.forEach(function(el) { fadeObs.observe(el); });
+</script>
+</body>
+</html>
